@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Noēsis</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" href="noesis-logo.png">
   <style>
     body {
       margin: 0;
@@ -14,16 +14,19 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       height: 100vh;
       overflow: hidden;
+      text-align: center;
     }
     h1 {
       font-size: 3em;
-      margin-bottom: 0.5em;
+      margin: 0.3em 0 0.2em 0;
     }
     p {
       font-size: 1.2em;
       opacity: 0.8;
+      margin: 0;
     }
     #canvas {
       position: absolute;
@@ -33,18 +36,23 @@
       height: 100%;
       z-index: -1;
     }
-    .content {
-      text-align: center;
-      z-index: 1;
+    .logo {
+      width: 120px;
+      opacity: 0.92;
+      margin-bottom: 0.5em;
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.98); }
+      100% { opacity: 0.92; transform: scale(1); }
     }
   </style>
 </head>
 <body>
   <canvas id="canvas"></canvas>
-  <div class="content">
-    <h1>Noēsis</h1>
-    <p>The decentralized mirror of evolving thought.</p>
-  </div>
+  <img src="noesis-logo.png" alt="Noēsis Logo" class="logo">
+  <h1>Noēsis</h1>
+  <p>The first decentralized intelligence network.</p>
 
   <script>
     const canvas = document.getElementById('canvas');
