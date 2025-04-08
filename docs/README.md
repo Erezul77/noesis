@@ -1,22 +1,12 @@
 # 🗳 Noēsis Governance Contract
 
-This contract governs swarm proposals within the Noēsis ecosystem.
+This smart contract governs swarm proposals within the Noēsis ecosystem — enabling collective upgrades, protocol evolution, and decentralized reflection-based decision-making.
 
-## 🛠 Deployment
+---
 
-1. Install dependencies:
-```
+## 🛠 Deployment Guide
+
+### 1. Install Dependencies
+
+```bash
 npm install --save-dev hardhat
-```
-
-2. Compile:
-```
-npx hardhat compile
-```
-
-3. Deploy to Sepolia:
-```
-npx hardhat run scripts/deploy.js --network sepolia
-```
-
-**Note**: Replace `YOUR_INFURA_KEY` and `YOUR_PRIVATE_KEY` in `hardhat.config.js`.
