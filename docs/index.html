@@ -19,10 +19,6 @@
       overflow: hidden;
       text-align: center;
     }
-    h1 {
-      font-size: 3em;
-      margin: 0.3em 0 0.2em 0;
-    }
     p {
       font-size: 1.2em;
       opacity: 0.8;
@@ -37,9 +33,10 @@
       z-index: -1;
     }
     .logo {
-      width: 120px;
+      width: 600px;
+      max-width: 80vw;
       opacity: 0.92;
-      margin-bottom: 0.5em;
+      margin-bottom: 1em;
       animation: fadeIn 2s ease-in-out;
     }
     @keyframes fadeIn {
@@ -51,7 +48,6 @@
 <body>
   <canvas id="canvas"></canvas>
   <img src="noesis-logo.png" alt="Noēsis Logo" class="logo">
-  <h1>Noēsis</h1>
   <p>The first decentralized intelligence network.</p>
 
   <script>
