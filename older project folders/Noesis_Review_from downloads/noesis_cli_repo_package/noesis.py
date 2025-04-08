@@ -1,1 +1,0 @@
-print('Launching Noēsis node...')

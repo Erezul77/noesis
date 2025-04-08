@@ -1,3 +1,0 @@
-# 🧬 Noēsis Persona Archetypes
-
-These are foundational node personalities within the Noēsis mesh...
