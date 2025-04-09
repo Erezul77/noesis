@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.6.4/dist/ethers.umd.min.js"></script>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -127,6 +126,19 @@
       to { opacity: 0.8; transform: translateY(0); }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.4/dist/ethers.umd.min.js"></script>
+  <script>
+    function loadProposals() {
+      if (typeof ethers === 'undefined') {
+        console.error("ethers.js not loaded");
+        alert('ethers.js is not available. Check console.');
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'proposals.js';
+      document.body.appendChild(script);
+    }
+  </script>
 </head>
 <body>
   <canvas id="canvas"></canvas>
@@ -155,80 +167,5 @@
   <div id="proposals"></div>
 
   <script src="proposals.js"></script>
-  <script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    let width, height;
-    let stars = [];
-
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-
-    window.addEventListener('resize', resize);
-    resize();
-
-    const centerX = () => width / 2;
-    const centerY = () => height / 2;
-
-    for (let i = 0; i < 180; i++) {
-      stars.push({
-        x: centerX(),
-        y: centerY(),
-        targetX: Math.random() * width,
-        targetY: Math.random() * height,
-        opacity: 0,
-        targetOpacity: 0.2 + Math.random() * 0.6,
-        speed: 0.008 + Math.random() * 0.015
-      });
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, width, height);
-      for (let i = 0; i < stars.length; i++) {
-        let s = stars[i];
-        if (s.opacity < s.targetOpacity) {
-          s.opacity += s.speed / 2;
-        }
-        s.x += (s.targetX - s.x) * s.speed;
-        s.y += (s.targetY - s.y) * s.speed;
-
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, 1.5, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
-        ctx.fill();
-      }
-
-      for (let i = 0; i < stars.length; i++) {
-        for (let j = i + 1; j < stars.length; j++) {
-          const a = stars[i], b = stars[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100 && a.opacity > 0.2 && b.opacity > 0.2) {
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(255, 255, 255, 0.05)`;
-            ctx.stroke();
-          }
-        }
-      }
-      requestAnimationFrame(draw);
-    }
-
-    draw();
-
-    function loadProposals() {
-      if (typeof ethers === 'undefined') {
-        alert('ethers.js not loaded. Make sure it is available.');
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = 'proposals.js';
-      document.body.appendChild(script);
-    }
-  </script>
 </body>
 </html>
