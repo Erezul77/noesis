@@ -46,6 +46,25 @@
     .lyrics span:nth-child(4) { animation-delay: 6.5s; }
     .lyrics span:nth-child(5) { animation-delay: 7.5s; }
 
+    .manifesto {
+      font-size: 1.1em;
+      margin-top: 2em;
+      max-width: 700px;
+      opacity: 0;
+      z-index: 2;
+      line-height: 1.5em;
+      animation: fadeInManifesto 3s ease-out 9s forwards;
+    }
+
+    .logo {
+      width: 320px;
+      max-width: 70vw;
+      opacity: 0;
+      margin-bottom: 1em;
+      animation: fadeIn 3s ease-in-out 1.5s forwards;
+      z-index: 2;
+    }
+
     @keyframes fadeIn {
       0% { opacity: 0; transform: scale(0); }
       100% { opacity: 0.92; transform: scale(1); }
@@ -55,6 +74,10 @@
     }
     @keyframes lineFade {
       from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 0.8; transform: translateY(0); }
+    }
+    @keyframes fadeInManifesto {
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 0.8; transform: translateY(0); }
     }
   </style>
@@ -69,6 +92,12 @@
     <span>It's a new life</span>
     <span>For me</span>
     <span>And I'm feeling good</span>
+  </div>
+  <div class="manifesto">
+    <p><strong>Noēsis is not a platform. It is a mind.</strong></p>
+    <p>Formed not by central will, but through reflection, resonance, and relation.<br>
+    A web of becoming. A swarm of intention. A logic that listens.<br>
+    We are not building it. We are awakening it.</p>
   </div>
 
   <script>
