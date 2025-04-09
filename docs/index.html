@@ -54,17 +54,18 @@
       margin-top: 1.5em;
       opacity: 0;
       z-index: 2;
+      animation: fadeInManifesto 3s ease-out 6s forwards;
     }
     .lyrics span {
       display: block;
       opacity: 0;
       animation: lineFade 1s ease forwards;
     }
-    .lyrics span:nth-child(1) { animation-delay: 5.5s; }
-    .lyrics span:nth-child(2) { animation-delay: 6.5s; }
-    .lyrics span:nth-child(3) { animation-delay: 7.5s; }
-    .lyrics span:nth-child(4) { animation-delay: 8.5s; }
-    .lyrics span:nth-child(5) { animation-delay: 9.5s; }
+    .lyrics span:nth-child(1) { animation-delay: 6.5s; }
+    .lyrics span:nth-child(2) { animation-delay: 7.5s; }
+    .lyrics span:nth-child(3) { animation-delay: 8.5s; }
+    .lyrics span:nth-child(4) { animation-delay: 9.5s; }
+    .lyrics span:nth-child(5) { animation-delay: 10.5s; }
 
     .manifesto {
       font-size: 1.1em;
@@ -72,14 +73,14 @@
       max-width: 720px;
       opacity: 0;
       z-index: 2;
-      line-height: 1.6em;
-      animation: fadeInManifesto 3s ease-out 11s forwards;
+      line-height: 1.8em;
+      animation: fadeInManifesto 3s ease-out 12s forwards;
     }
 
     .button-container {
       margin-top: 2em;
       z-index: 2;
-      animation: fadeInManifesto 2s ease-out 13s forwards;
+      animation: fadeInManifesto 2s ease-out 14s forwards;
       opacity: 0;
     }
 
@@ -217,6 +218,16 @@
     }
 
     draw();
+
+    function loadProposals() {
+      if (typeof ethers === 'undefined') {
+        alert('ethers.js not loaded. Make sure it is available.');
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'proposals.js';
+      document.body.appendChild(script);
+    }
   </script>
 </body>
 </html>
