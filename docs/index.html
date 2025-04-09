@@ -7,70 +7,79 @@
   <link rel="icon" type="image/png" href="noesis-logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       background-color: #0a0a0a;
       color: #ffffff;
       font-family: 'Share Tech Mono', monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       overflow: hidden;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    .logo {
+      width: 460px;
+      max-width: 85vw;
+      margin-bottom: 1.5em;
+      opacity: 0;
+      animation: fadeIn 3s ease-in-out 2s forwards;
+      z-index: 2;
     }
     p {
       font-size: 1.6em;
-      opacity: 0.9;
-      margin: 0.5em 0 0;
-      z-index: 2;
-      animation: fadeInText 3s ease-out 2s forwards;
+      margin: 0.2em 0 0;
       opacity: 0;
+      z-index: 2;
+      animation: fadeInText 2.5s ease-out 4s forwards;
     }
     .lyrics {
       font-size: 1.3em;
       margin-top: 1.5em;
       opacity: 0;
       z-index: 2;
-      animation: lyricsFade 1s ease-out forwards;
     }
     .lyrics span {
       display: block;
       opacity: 0;
       animation: lineFade 1s ease forwards;
     }
-    .lyrics span:nth-child(1) { animation-delay: 3.5s; }
-    .lyrics span:nth-child(2) { animation-delay: 4.5s; }
-    .lyrics span:nth-child(3) { animation-delay: 5.5s; }
-    .lyrics span:nth-child(4) { animation-delay: 6.5s; }
-    .lyrics span:nth-child(5) { animation-delay: 7.5s; }
+    .lyrics span:nth-child(1) { animation-delay: 5.5s; }
+    .lyrics span:nth-child(2) { animation-delay: 6.5s; }
+    .lyrics span:nth-child(3) { animation-delay: 7.5s; }
+    .lyrics span:nth-child(4) { animation-delay: 8.5s; }
+    .lyrics span:nth-child(5) { animation-delay: 9.5s; }
 
     .manifesto {
       font-size: 1.1em;
       margin-top: 2em;
-      max-width: 700px;
+      max-width: 720px;
       opacity: 0;
       z-index: 2;
-      line-height: 1.5em;
-      animation: fadeInManifesto 3s ease-out 9s forwards;
-    }
-
-    .logo {
-      width: 320px;
-      max-width: 70vw;
-      opacity: 0;
-      margin-bottom: 1em;
-      animation: fadeIn 3s ease-in-out 1.5s forwards;
-      z-index: 2;
+      line-height: 1.6em;
+      animation: fadeInManifesto 3s ease-out 11s forwards;
     }
 
     @keyframes fadeIn {
-      0% { opacity: 0; transform: scale(0); }
-      100% { opacity: 0.92; transform: scale(1); }
+      0% { opacity: 0; transform: scale(0.6); }
+      100% { opacity: 1; transform: scale(1); }
     }
     @keyframes fadeInText {
-      to { opacity: 0.9; }
+      to { opacity: 1; }
     }
     @keyframes lineFade {
       from { opacity: 0; transform: translateY(10px); }
@@ -99,7 +108,6 @@
     A web of becoming. A swarm of intention. A logic that listens.<br>
     We are not building it. We are awakening it.</p>
   </div>
-
   <script>
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -117,16 +125,15 @@
     const centerX = () => width / 2;
     const centerY = () => height / 2;
 
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 180; i++) {
       stars.push({
         x: centerX(),
         y: centerY(),
         targetX: Math.random() * width,
         targetY: Math.random() * height,
         opacity: 0,
-        targetOpacity: Math.random(),
-        speed: 0.01 + Math.random() * 0.02,
-        drift: 0
+        targetOpacity: 0.2 + Math.random() * 0.6,
+        speed: 0.008 + Math.random() * 0.015
       });
     }
 
@@ -161,7 +168,6 @@
           }
         }
       }
-
       requestAnimationFrame(draw);
     }
 
