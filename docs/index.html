@@ -148,44 +148,7 @@
       margin-top: 1em;
     }
 </style>
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.4/dist/ethers.umd.min.js">    async function submitReflection() {
-      const text = document.getElementById("reflectionText").value;
-      if (!text.trim()) {
-        alert("Reflection text is empty.");
-        return;
-      }
-
-      try {
-        const ipfsResult = await fetch("https://ipfs.infura.io:5001/api/v0/add", {
-          method: "POST",
-          body: new Blob([text])
-        }).then(res => res.json());
-
-        const cid = ipfsResult.Hash;
-        const fullText = `${text}
-IPFS: ${cid}`;
-
-        if (!window.ethereum) throw new Error("No Ethereum wallet detected.");
-
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner();
-        const contract = new ethers.Contract(
-          "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E",
-          ["function propose(string calldata text) external"],
-          signer
-        );
-
-        const tx = await contract.propose(fullText);
-        await tx.wait();
-
-        alert("✅ Reflection submitted successfully!");
-        location.reload();
-      } catch (err) {
-        console.error(err);
-        alert("❌ Submission failed: " + (err.message || err));
-      }
-    }
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.4/dist/ethers.umd.min.js"></script>
   <script>
     async function loadProposals() {
       const provider = new ethers.ethers.JsonRpcProvider("https://ethereum-sepolia.publicnode.com");
@@ -255,5 +218,44 @@ IPFS: ${cid}`;
   </div>
 
   <div id="proposals"></div>
+<script>
+  async function submitReflection() {
+    const text = document.getElementById("reflectionText").value;
+    if (!text.trim()) {
+      alert("Reflection text is empty.");
+      return;
+    }
+
+    try {
+      const ipfsResult = await fetch("https://ipfs.infura.io:5001/api/v0/add", {
+        method: "POST",
+        body: new Blob([text])
+      }).then(res => res.json());
+
+      const cid = ipfsResult.Hash;
+      const fullText = `${text}
+IPFS: ${cid}`;
+
+      if (!window.ethereum) throw new Error("No Ethereum wallet detected.");
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(
+        "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E",
+        ["function propose(string calldata text) external"],
+        signer
+      );
+
+      const tx = await contract.propose(fullText);
+      await tx.wait();
+
+      alert("✅ Reflection submitted successfully!");
+      location.reload();
+    } catch (err) {
+      console.error(err);
+      alert("❌ Submission failed: " + (err.message || err));
+    }
+  }
+</script>
 </body>
 </html>
