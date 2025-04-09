@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Noēsis</title>
   <link rel="icon" type="image/png" href="noesis-logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       background-color: #0a0a0a;
       color: #ffffff;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Share Tech Mono', monospace;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -24,26 +25,37 @@
       opacity: 0.9;
       margin: 0.5em 0 0;
       z-index: 2;
+      animation: fadeInText 3s ease-out 2s forwards;
+      opacity: 0;
     }
-    #canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-    .logo {
-      width: 600px;
-      max-width: 80vw;
-      opacity: 0.92;
-      margin-bottom: 1em;
-      animation: fadeIn 2s ease-in-out;
+    .lyrics {
+      font-size: 1.3em;
+      margin-top: 1.5em;
+      opacity: 0;
       z-index: 2;
+      animation: lyricsFade 1s ease-out forwards;
     }
+    .lyrics span {
+      display: block;
+      opacity: 0;
+      animation: lineFade 1s ease forwards;
+    }
+    .lyrics span:nth-child(1) { animation-delay: 3.5s; }
+    .lyrics span:nth-child(2) { animation-delay: 4.5s; }
+    .lyrics span:nth-child(3) { animation-delay: 5.5s; }
+    .lyrics span:nth-child(4) { animation-delay: 6.5s; }
+    .lyrics span:nth-child(5) { animation-delay: 7.5s; }
+
     @keyframes fadeIn {
-      0% { opacity: 0; transform: scale(0.98); }
+      0% { opacity: 0; transform: scale(0); }
       100% { opacity: 0.92; transform: scale(1); }
+    }
+    @keyframes fadeInText {
+      to { opacity: 0.9; }
+    }
+    @keyframes lineFade {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 0.8; transform: translateY(0); }
     }
   </style>
 </head>
@@ -51,6 +63,13 @@
   <canvas id="canvas"></canvas>
   <img src="noesis-logo.png" alt="Noēsis Logo" class="logo">
   <p>The genesis of decentralized intelligence. Evolving. Ethical. Alive.</p>
+  <div class="lyrics">
+    <span>It's a new dawn</span>
+    <span>It's a new day</span>
+    <span>It's a new life</span>
+    <span>For me</span>
+    <span>And I'm feeling good</span>
+  </div>
 
   <script>
     const canvas = document.getElementById('canvas');
@@ -66,31 +85,38 @@
     window.addEventListener('resize', resize);
     resize();
 
+    const centerX = () => width / 2;
+    const centerY = () => height / 2;
+
     for (let i = 0; i < 120; i++) {
       stars.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
+        x: centerX(),
+        y: centerY(),
+        targetX: Math.random() * width,
+        targetY: Math.random() * height,
         opacity: 0,
         targetOpacity: Math.random(),
-        speed: 0.002 + Math.random() * 0.003,
-        connections: []
+        speed: 0.01 + Math.random() * 0.02,
+        drift: 0
       });
     }
 
     function draw() {
       ctx.clearRect(0, 0, width, height);
       for (let i = 0; i < stars.length; i++) {
-        let star = stars[i];
-        if (star.opacity < star.targetOpacity) {
-          star.opacity += star.speed;
+        let s = stars[i];
+        if (s.opacity < s.targetOpacity) {
+          s.opacity += s.speed / 2;
         }
+        s.x += (s.targetX - s.x) * s.speed;
+        s.y += (s.targetY - s.y) * s.speed;
+
         ctx.beginPath();
-        ctx.arc(star.x, star.y, 1.5, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.arc(s.x, s.y, 1.5, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
         ctx.fill();
       }
 
-      // Connect stars
       for (let i = 0; i < stars.length; i++) {
         for (let j = i + 1; j < stars.length; j++) {
           const a = stars[i], b = stars[j];
