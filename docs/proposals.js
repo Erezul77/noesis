@@ -1,36 +1,41 @@
-// docs/proposals.js
-const INFURA_KEY =8543b8c6deaf423d86de49f6f5af1157;
-const CONTRACT_ADDRESS = "0x5b8Df9F91d86FB4054b78ed2026500792B539822";
-const ABI = [
-  "event ProposalCreated(address indexed proposer, string text)"
-];
+// proposals.js
 
-async function fetchProposals() {
-  const provider = new ethers.providers.InfuraProvider("sepolia", INFURA_KEY);
-  const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
-  
-  const events = await contract.queryFilter("ProposalCreated", 0, "latest");
-  const list = document.getElementById("proposal-list");
+async function loadProposals() {
+  const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
+  const contractAddress = "0x5b8Df9F91d86FB4054b78ed2026500792B539822";
+  const abi = [
+    "function getProposals() public view returns (tuple(uint256 id, address author, string text, uint256 timestamp)[])"
+  ];
 
-  if (events.length === 0) {
-    list.innerHTML = "<li>No proposals found.</li>";
-    return;
-  }
+  const contract = new ethers.Contract(contractAddress, abi, provider);
+  const container = document.getElementById("proposals");
+  container.innerHTML = "Loading proposals...";
 
-  events.reverse().forEach((event) => {
-    const { text } = event.args;
-    const li = document.createElement("li");
-    
-    if (text.startsWith("Reflection IPFS: ")) {
-      const cid = text.replace("Reflection IPFS: ", "");
-      const link = `https://ipfs.io/ipfs/${cid}`;
-      li.innerHTML = `<a href="${link}" target="_blank">${cid}</a>`;
-    } else {
-      li.textContent = text;
+  try {
+    const proposals = await contract.getProposals();
+    container.innerHTML = "";
+    if (proposals.length === 0) {
+      container.innerHTML = "<p>No proposals found.</p>";
+      return;
     }
+    proposals.reverse().forEach((p) => {
+      const card = document.createElement("div");
+      card.className = "proposal-card";
 
-    list.appendChild(li);
-  });
+      // Check for IPFS line
+      const ipfsMatch = p.text.match(/IPFS:\s*(Qm[\w\d]+)/i);
+      const ipfsLink = ipfsMatch ? `<br><a href='https://ipfs.io/ipfs/${ipfsMatch[1]}' target='_blank'>View Reflection</a>` : "";
+
+      card.innerHTML = `
+        <strong>Proposal #${p.id}</strong><br>
+        <em>By ${p.author}</em><br>
+        <p>${p.text.replace(/\n/g, '<br>')}</p>
+        ${ipfsLink}
+        <small>${new Date(p.timestamp * 1000).toLocaleString()}</small>
+      `;
+      container.appendChild(card);
+    });
+  } catch (err) {
+    container.innerHTML = `<p>Error loading proposals: ${err.message}</p>`;
+  }
 }
-
-window.addEventListener("load", fetchProposals);
