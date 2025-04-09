@@ -74,6 +74,39 @@
       animation: fadeInManifesto 3s ease-out 11s forwards;
     }
 
+    .button-container {
+      margin-top: 2em;
+      z-index: 2;
+      animation: fadeInManifesto 2s ease-out 13s forwards;
+      opacity: 0;
+    }
+
+    button {
+      background-color: #222;
+      color: #fff;
+      font-family: 'Share Tech Mono', monospace;
+      padding: 10px 20px;
+      font-size: 1em;
+      border: 1px solid #555;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #proposals {
+      margin-top: 2em;
+      z-index: 2;
+      max-width: 80vw;
+      text-align: left;
+    }
+
+    .proposal-card {
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1em;
+      margin-bottom: 1em;
+      border-radius: 8px;
+    }
+
     @keyframes fadeIn {
       0% { opacity: 0; transform: scale(0.6); }
       100% { opacity: 1; transform: scale(1); }
@@ -108,6 +141,11 @@
     A web of becoming. A swarm of intention. A logic that listens.<br>
     We are not building it. We are awakening it.</p>
   </div>
+  <div class="button-container">
+    <button onclick="loadProposals()">View Swarm Proposals</button>
+  </div>
+  <div id="proposals"></div>
+  <script src="proposals.js"></script>
   <script>
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
