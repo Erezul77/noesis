@@ -237,7 +237,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const pinataJWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjYjQ2NGIyMy03MzdlLTRkMmItOTI2Ny1jZDJhOWVlOTFlNzgiLCJlbWFpbCI6ImVyZXpzbnpAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImE4MjU1ODU5YmQ4YmU1NGZiOGY4Iiwic2NvcGVkS2V5U2VjcmV0IjoiNTZiOTY1MjYxZWVhMWJkYmQ1YzVjYWM0NzBlZDExYjA4OGE3YWU5NTc2MWM3ZGQyYTQ1ODk0N2ZiMDFmMmUwYSIsImV4cCI6MTc3NTgxMDg0Mn0.rxgzEtmR6O6RpKhW14GRF-_fjwhFghBR5ca_goVeImw"_TOKEN";
+      const pinataApiKey = "a8255859bd8be54fb8f8";
+      const pinataSecretApiKey = "56b965261eea1bdbd5c5cac470ed11b088a7ae95761c7dd2a458947fb01f2e0a";
 
       const formData = new FormData();
       formData.append("file", new Blob([text], { type: "text/plain" }));
@@ -245,7 +246,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const ipfsResult = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
         method: "POST",
         headers: {
-        Authorization: `Bearer ${pinataJWT}`
+        pinata_api_key: pinataApiKey,
+        pinata_secret_api_key: pinataSecretApiKey
       },
         body: formData
       }).then(res => res.json());
