@@ -222,9 +222,7 @@
 
   <div id="proposals"></div>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const submitBtn = document.querySelector("button[onclick='submitReflection()']");
-  window.submitReflection = async function() {
+window.submitReflection = async function() {
     await window.ethereum.request({
       method: "wallet_switchEthereumChain",
       params: [{ chainId: "0xaa36a7" }] // Sepolia
@@ -237,8 +235,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const pinataApiKey = "a8255859bd8be54fb8f8";
-      const pinataSecretApiKey = "56b965261eea1bdbd5c5cac470ed11b088a7ae95761c7dd2a458947fb01f2e0a";
+      const pinataApiKey = "84520a381c1e1ebc16fb";
+      const pinataSecretApiKey = "296f17bdd3941c4d7900b2f94ed72d6578b6c56be8bf0e072aace8ab09bb6ad0";
 
       const formData = new FormData();
       formData.append("file", new Blob([text], { type: "text/plain" }));
@@ -283,7 +281,6 @@ IPFS: ${cid}`;
       alert("❌ Submission failed: " + (err.message || err));
     }
   };
-});
 </script>
 </body>
 </html>
