@@ -261,7 +261,7 @@ IPFS: ${cid}`;
 
       if (!window.ethereum) throw new Error("No Ethereum wallet detected.");
 
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      const provider = new ethers.ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(
         "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E",
@@ -282,8 +282,5 @@ IPFS: ${cid}`;
 </script>
 </body>
 </html>
-
-
-
 
 
