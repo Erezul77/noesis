@@ -223,6 +223,11 @@
   <div id="proposals"></div>
 <script>
   async function submitReflection() {
+    await window.ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0xaa36a7" }] // Sepolia
+    });
+    await window.ethereum.request({ method: "eth_requestAccounts" });
     const text = document.getElementById("reflectionText").value;
     if (!text.trim()) {
       alert("Reflection text is empty.");
@@ -277,4 +282,5 @@ IPFS: ${cid}`;
 </script>
 </body>
 </html>
+
 
