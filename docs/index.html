@@ -224,7 +224,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const submitBtn = document.querySelector("button[onclick='submitReflection()']");
-  submitBtn.onclick = async function() {
+  window.submitReflection = async function() {
     await window.ethereum.request({
       method: "wallet_switchEthereumChain",
       params: [{ chainId: "0xaa36a7" }] // Sepolia
@@ -285,5 +285,6 @@ IPFS: ${cid}`;
 </script>
 </body>
 </html>
+
 
 
