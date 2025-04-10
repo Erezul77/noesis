@@ -246,7 +246,6 @@ window.submitReflection = async function() {
       console.log("✅ IPFS raw response:", ipfsResult);
 
       if (!ipfsResult || !ipfsResult.IpfsHash) {
-        console.error("❌ IPFS Upload Error:", ipfsResult);
         throw new Error("IPFS upload failed — check API key or file type.");
       }
 
@@ -255,7 +254,7 @@ window.submitReflection = async function() {
 IPFS: ${cid}`;
 
       if (!window.ethereum) {
-        alert("✅ Uploaded to IPFS, but no wallet detected for on-chain sync.
+        alert("✅ Uploaded to IPFS, but no wallet detected.
 IPFS CID: " + cid);
         return;
       }
@@ -265,42 +264,10 @@ IPFS CID: " + cid);
         params: [{ chainId: "0xaa36a7" }]
       });
       await window.ethereum.request({ method: "eth_requestAccounts" });
-    const text = document.getElementById("reflectionText").value;
-    if (!text.trim()) {
-      alert("Reflection text is empty.");
-      return;
-    }
-
-    try {
-      const pinataJWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
-
-      const formData = new FormData();
-      formData.append("file", new Blob([text], { type: "text/plain" }));
-
-      const ipfsResult = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
-        method: "POST",
-        headers: {
-        Authorization: `Bearer ${pinataJWT}`
-      },
-        body: formData
-      }).then(res => res.json());
-
-      console.log("✅ IPFS raw response:", ipfsResult);
-
-      if (!ipfsResult || !ipfsResult.IpfsHash) {
-        console.error("❌ IPFS Upload Error:", ipfsResult);
-        throw new Error("IPFS upload failed — check API key or file type.");
-      }
-
-      const cid = ipfsResult.IpfsHash;
-      const fullText = `${text}
-IPFS: ${cid}`;
-
-      if (!window.ethereum) throw new Error("No Ethereum wallet detected.");
 
       const provider = new ethers.ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(
+      const contract = new ethers.ethers.Contract(
         "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E",
         ["function propose(string calldata text) external"],
         signer
@@ -315,7 +282,7 @@ IPFS: ${cid}`;
       console.error(err);
       alert("❌ Submission failed: " + (err.message || err));
     }
-  };
+};
 </script>
 </body>
 </html>
