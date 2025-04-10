@@ -150,6 +150,9 @@
 </style>
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.4/dist/ethers.umd.min.js"></script>
   <script>
+  // Set your NFT.Storage token here:
+  window.NFT_TOKEN = "553f350a.29dcd6f8201648ddb979c846e4052bf4";
+
     async function loadProposals() {
       const provider = new ethers.ethers.JsonRpcProvider("https://ethereum-sepolia.publicnode.com");
       const contractAddress = "0x5b8Df9F91d86FB4054b78ed2026500792B539822";
@@ -227,8 +230,12 @@
     }
 
     try {
-      const ipfsResult = await fetch("https://ipfs.infura.io:5001/api/v0/add", {
+      const ipfsResult = await fetch("https://api.nft.storage/upload", {
         method: "POST",
+        headers: {
+          "Authorization": `Bearer ${window.NFT_TOKEN}`,
+          "Content-Type": "application/octet-stream"
+        },
         body: new Blob([text])
       }).then(res => res.json());
 
