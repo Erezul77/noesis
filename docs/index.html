@@ -233,14 +233,16 @@
       const pinataApiKey = "a8255859bd8be54fb8f8";
       const pinataSecretApiKey = "56b965261eea1bdbd5c5cac470ed11b088a7ae95761c7dd2a458947fb01f2e0a";
 
+      const formData = new FormData();
+      formData.append("file", new Blob([text], { type: "text/plain" }));
+
       const ipfsResult = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${btoa(`${pinataApiKey}:${pinataSecretApiKey}`)}`
+          pinata_api_key: pinataApiKey,
+          pinata_secret_api_key: pinataSecretApiKey
         },
-        const formData = new FormData();
-      formData.append("file", new Blob([text], { type: "text/plain" }));
-      body: formData
+        body: formData
       }).then(res => res.json());
 
       console.log("✅ IPFS raw response:", ipfsResult);
