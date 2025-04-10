@@ -265,7 +265,7 @@ IPFS CID: " + cid);
       });
       await window.ethereum.request({ method: "eth_requestAccounts" });
 
-      const provider = new ethers.ethers.BrowserProvider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = await provider.getSigner();
       const contract = new ethers.ethers.Contract(
         "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E",
