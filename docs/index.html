@@ -151,7 +151,7 @@
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.4/dist/ethers.umd.min.js"></script>
   <script>
   // Set your NFT.Storage token here:
-  window.NFT_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6Z2l0aHViOmNoYXRncHQiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY5NTc1NTAwMDAwMCwiZXhwIjo0ODQxMTA4MDAwMDB9.RmOg0_MDOU5zv2A1Z_x4Ucd-OKFAhS5xNHYXv0tSk6Q";
+  // window.NFT_TOKEN = "..."; // disabled for Pinata
 
     async function loadProposals() {
       const provider = new ethers.ethers.JsonRpcProvider("https://ethereum-sepolia.publicnode.com");
@@ -230,14 +230,15 @@
     }
 
     try {
-      const ipfsResult = await fetch("https://api.nft.storage/upload", {
+      const pinataApiKey = "a8255859bd8be54fb8f8;
+      const pinataSecretApiKey = "56b965261eea1bdbd5c5cac470ed11b088a7ae95761c7dd2a458947fb01f2e0a";
+
+      const ipfsResult = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${window.NFT_TOKEN}`,
-          "Content-Type": "application/octet-stream",
-          "Accept": "application/json"
+          Authorization: `Bearer ${btoa(`${pinataApiKey}:${pinataSecretApiKey}`)}`
         },
-        body: new Blob([text], { type: "text/plain" })
+        body: new FormData().append("file", new Blob([text], { type: "text/plain" }))
       }).then(res => res.json());
 
       console.log("✅ IPFS raw response:", ipfsResult);
