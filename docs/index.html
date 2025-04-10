@@ -234,10 +234,13 @@
         method: "POST",
         headers: {
           "Authorization": `Bearer ${window.NFT_TOKEN}`,
-          "Content-Type": "application/octet-stream"
+          "Content-Type": "application/octet-stream",
+          "Accept": "application/json"
         },
         body: new Blob([text])
       }).then(res => res.json());
+
+      console.log("✅ IPFS raw response:", ipfsResult);
 
       if (!ipfsResult || !ipfsResult.value || !ipfsResult.value.cid) {
         console.error("❌ IPFS Upload Error:", ipfsResult);
