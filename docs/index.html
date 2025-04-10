@@ -222,7 +222,8 @@
 
   <div id="proposals"></div>
 <script>
-  async function submitReflection() {
+document.addEventListener("DOMContentLoaded", () => {
+  window.submitReflection = async function() {
     await window.ethereum.request({
       method: "wallet_switchEthereumChain",
       params: [{ chainId: "0xaa36a7" }] // Sepolia
@@ -277,8 +278,9 @@ IPFS: ${cid}`;
     } catch (err) {
       console.error(err);
       alert("❌ Submission failed: " + (err.message || err));
-    }
   }
+});
+</script>
 </script>
 </body>
 </html>
