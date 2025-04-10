@@ -239,6 +239,11 @@
         body: new Blob([text])
       }).then(res => res.json());
 
+      if (!ipfsResult || !ipfsResult.value || !ipfsResult.value.cid) {
+        console.error("❌ IPFS Upload Error:", ipfsResult);
+        throw new Error("IPFS upload failed — check API key or file type.");
+      }
+
       const cid = ipfsResult.value.cid;
       const fullText = `${text}
 IPFS: ${cid}`;
