@@ -230,16 +230,21 @@
     }
 
     try {
-      const ipfsResult = await fetch("https://api.nft.storage/upload", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${window.NFT_TOKEN}`,
-          "Content-Type": "application/octet-stream"
-        },
-        body: new Blob([text])
-      }).then(res => res.json());
+      const ipfsResponse = await fetch("https://api.nft.storage/upload", {
+  method: "POST",
+  headers: {
+    "Authorization": `Bearer ${window.NFT_TOKEN}`,
+    "Content-Type": "application/octet-stream"
+  },
+  body: new Blob([text])
+}).then(res => res.json());
 
-      const cid = ipfsResult.value.cid;
+if (!ipfsResponse.ok || !ipfsResponse.value) {
+  console.error("❌ IPFS upload failed:", ipfsResponse);
+  throw new Error("IPFS upload failed");
+}
+
+const cid = ipfsResponse.value.cid;
       const fullText = `${text}
 IPFS: ${cid}`;
 
