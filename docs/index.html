@@ -247,12 +247,12 @@
 
       console.log("✅ IPFS raw response:", ipfsResult);
 
-      if (!ipfsResult || !ipfsResult.value || !ipfsResult.value.cid) {
+      if (!ipfsResult || !ipfsResult.IpfsHash) {
         console.error("❌ IPFS Upload Error:", ipfsResult);
         throw new Error("IPFS upload failed — check API key or file type.");
       }
 
-      const cid = ipfsResult.value.cid;
+      const cid = ipfsResult.IpfsHash;
       const fullText = `${text}
 IPFS: ${cid}`;
 
