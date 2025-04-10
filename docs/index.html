@@ -237,7 +237,7 @@
           "Content-Type": "application/octet-stream",
           "Accept": "application/json"
         },
-        body: new Blob([text])
+        body: new Blob([text], { type: "text/plain" })
       }).then(res => res.json());
 
       console.log("✅ IPFS raw response:", ipfsResult);
