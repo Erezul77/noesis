@@ -17,6 +17,7 @@
       width: 100%;
       min-height: 100%;
       overflow-x: hidden;
+      scroll-behavior: smooth;
     }
     body {
       display: flex;
@@ -70,14 +71,15 @@
     .manifesto {
       font-size: 1.1em;
       margin-top: 2em;
+      padding: 0 1em;
       max-width: 720px;
       opacity: 0;
       z-index: 2;
       line-height: 1.8em;
       animation: fadeInManifesto 3s ease-out 12s forwards;
     }
-    .button-container {
-      margin-top: 2em;
+    .button-container, .form-container {
+      margin-top: 2.5em;
       z-index: 2;
       animation: fadeInManifesto 2s ease-out 14s forwards;
       opacity: 0;
@@ -95,7 +97,7 @@
     #proposals {
       margin-top: 2em;
       z-index: 2;
-      max-width: 80vw;
+      max-width: 90vw;
       text-align: left;
     }
     .proposal-card {
@@ -105,14 +107,9 @@
       margin-bottom: 1em;
       border-radius: 8px;
     }
-    .form-container {
-      margin-top: 3em;
-      z-index: 2;
-      animation: fadeInManifesto 2s ease-out 14s forwards;
-      opacity: 0;
-    }
     textarea {
       width: 80vw;
+      max-width: 720px;
       height: 120px;
       font-family: 'Share Tech Mono', monospace;
       font-size: 1em;
@@ -129,9 +126,7 @@
       0% { opacity: 0; transform: scale(0.6); }
       100% { opacity: 1; transform: scale(1); }
     }
-    @keyframes fadeInText {
-      to { opacity: 1; }
-    }
+    @keyframes fadeInText { to { opacity: 1; } }
     @keyframes lineFade {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 0.8; transform: translateY(0); }
