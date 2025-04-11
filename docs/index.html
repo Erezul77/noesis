@@ -175,7 +175,7 @@
 
   <script>
     async function loadProposals() {
-      const provider = new ethers.ethers.BrowserProvider(window.ethereum);
+      const provider = new ethers.ethers.JsonRpcProvider("https://ethereum-sepolia.publicnode.com");
       const contractAddress = "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E";
       const abi = [
         "function getProposals() public view returns (tuple(uint256 id, address author, string text, uint256 timestamp)[])"
@@ -221,16 +221,15 @@
         const formData = new FormData();
         formData.append("file", new Blob([text], { type: "text/plain" }));
 
-        const ipfsResponse = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${pinataJWT}`
-  },
-  body: formData
-});
+        const ipfsResult = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${pinataJWT}`
+          },
+          body: formData
+        }).then(res => res.json());
 
-const ipfsResult = await ipfsResponse.json();
-console.log("📦 Pinata response:", ipfsResult);
+        console.log("📦 Pinata response:", ipfsResult);
 
         if (!ipfsResult || !ipfsResult.IpfsHash) {
           throw new Error("IPFS upload failed — check API key or file type.");
@@ -243,19 +242,6 @@ console.log("📦 Pinata response:", ipfsResult);
           alert("✅ Uploaded to IPFS, but no wallet detected.\nIPFS CID: " + cid);
           return;
         }
-
-        await window.ethereum.request({
-          method: "wallet_addEthereumChain",
-          params: [{
-            chainId: "0xaa36a7",
-            chainName: "Sepolia Testnet",
-            nativeCurrency: { name: "SepoliaETH", symbol: "ETH", decimals: 18 },
-            rpcUrls: ["https://ethereum-sepolia.publicnode.com"],
-            blockExplorerUrls: ["https://sepolia.etherscan.io"]
-          }]
-        });
-
-        await window.ethereum.request({ method: "eth_requestAccounts" });
 
         const provider = new ethers.ethers.BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
@@ -280,4 +266,3 @@ console.log("📦 Pinata response:", ipfsResult);
   </script>
 </body>
 </html>
-
