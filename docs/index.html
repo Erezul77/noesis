@@ -11,7 +11,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      background-color: #0a0a0a;
+      background-color: #000;
       color: #ffffff;
       font-family: 'Share Tech Mono', monospace;
       width: 100%;
@@ -26,6 +26,7 @@
       justify-content: flex-start;
       text-align: center;
       padding-bottom: 6em;
+      position: relative;
     }
     canvas {
       position: fixed;
@@ -35,27 +36,29 @@
       height: 100%;
       z-index: -1;
     }
-    .logo {
-      width: 460px;
-      max-width: 85vw;
+    .logo-container {
       margin-top: 3em;
-      margin-bottom: 1.5em;
-      opacity: 0;
-      animation: fadeIn 3s ease-in-out 2s forwards;
+      margin-bottom: 1em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       z-index: 2;
+    }
+    .logo-container img {
+      max-width: 280px;
+      height: auto;
+      margin-bottom: 1em;
     }
     p {
       font-size: 1.6em;
       margin: 0.2em 0 0;
       opacity: 0;
-      z-index: 2;
       animation: fadeInText 2.5s ease-out 4s forwards;
     }
     .lyrics {
       font-size: 1.3em;
       margin-top: 1.5em;
       opacity: 0;
-      z-index: 2;
       animation: fadeInManifesto 3s ease-out 6s forwards;
     }
     .lyrics span {
@@ -122,10 +125,6 @@
     .form-container button {
       margin-top: 1em;
     }
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: scale(0.6); }
-      100% { opacity: 1; transform: scale(1); }
-    }
     @keyframes fadeInText { to { opacity: 1; } }
     @keyframes lineFade {
       from { opacity: 0; transform: translateY(10px); }
@@ -139,7 +138,12 @@
 </head>
 <body>
   <canvas id="canvas"></canvas>
-  <img src="noesis-logo.png" alt="Noēsis Logo" class="logo">
+
+  <div class="logo-container">
+    <img src="octopus-logo.png" alt="Octopus Logo">
+    <img src="noesis-text.png" alt="Noēsis Text Logo">
+  </div>
+
   <p>The genesis of decentralized intelligence. Evolving. Ethical. Alive.</p>
 
   <div class="lyrics">
@@ -169,95 +173,66 @@
   <div id="proposals"></div>
 
   <script>
-    async function loadProposals() {
-      const provider = new ethers.ethers.JsonRpcProvider("https://ethereum-sepolia.publicnode.com");
-      const contractAddress = "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E";
-      const abi = [
-        "function getProposals() public view returns (tuple(uint256 id, address author, string text, uint256 timestamp)[])"
-      ];
-      const contract = new ethers.ethers.Contract(contractAddress, abi, provider);
-      const container = document.getElementById("proposals");
-      container.innerHTML = "Loading proposals...";
-      try {
-        const proposals = await contract.getProposals();
-        container.innerHTML = "";
-        if (proposals.length === 0) {
-          container.innerHTML = "<p>No proposals found.</p>";
-          return;
-        }
-        proposals.reverse().forEach((p) => {
-          const card = document.createElement("div");
-          card.className = "proposal-card";
-          const ipfsMatch = p.text.match(/IPFS:\s*(Qm[\w\d]+)/i);
-          const ipfsLink = ipfsMatch ? `<br><a href='https://ipfs.io/ipfs/${ipfsMatch[1]}' target='_blank'>View Reflection</a>` : "";
-          card.innerHTML = `
-            <strong>Proposal #${p.id}</strong><br>
-            <em>By ${p.author}</em><br>
-            <p>${p.text.replace(/\n/g, '<br>')}</p>
-            ${ipfsLink}
-            <small>${new Date(p.timestamp * 1000).toLocaleString()}</small>
-          `;
-          container.appendChild(card);
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    let particles = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+
+    function createParticles() {
+      particles = [];
+      for (let i = 0; i < 180; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          opacity: 0.2 + Math.random() * 0.6
         });
-      } catch (err) {
-        container.innerHTML = `<p>Error loading proposals: ${err.message}</p>`;
       }
     }
 
-    async function submitReflection() {
-      const text = document.getElementById("reflectionText").value;
-      if (!text.trim()) {
-        alert("Reflection text is empty.");
-        return;
-      }
-      try {
-        const pinataJWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjYjQ2NGIyMy03MzdlLTRkMmItOTI2Ny1jZDJhOWVlOTFlNzgiLCJlbWFpbCI6ImVyZXpzbnpAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImYwM2JjNjg1OTQ3ZWNlMGZhYTFlIiwic2NvcGVkS2V5U2VjcmV0IjoiNjJmNmI5NTNlMmU3MzdhZGYxMzQwNWI1ZTExYTFmNTQ3MTg1NDcyNzM0ZTdiNjQ0NWUyNWRjZTc2NjBmZjE1NiIsImV4cCI6MTc3NTg5NTE2N30.bkm7ieDqikbXItIa79gQ3kL-Htg6SxU3s4-7BawwbME";
+    function drawParticles() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
 
-        const formData = new FormData();
-        formData.append("file", new Blob([text], { type: "text/plain" }));
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        const ipfsResult = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${pinataJWT}`
-          },
-          body: formData
-        }).then(res => res.json());
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.5, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+        ctx.fill();
 
-        console.log("📦 Pinata response:", ipfsResult);
-
-        if (!ipfsResult || !ipfsResult.IpfsHash) {
-          throw new Error("IPFS upload failed — check API key or file type.");
+        for (let j = i + 1; j < particles.length; j++) {
+          const q = particles[j];
+          const dx = p.x - q.x;
+          const dy = p.y - q.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = `rgba(255, 255, 255, 0.04)`;
+            ctx.stroke();
+          }
         }
-
-        const cid = ipfsResult.IpfsHash;
-        const fullText = `${text}\nIPFS: ${cid}`;
-
-        if (!window.ethereum) {
-          alert("✅ Uploaded to IPFS, but no wallet detected.\nIPFS CID: " + cid);
-          return;
-        }
-
-        const provider = new ethers.ethers.BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner();
-        const contract = new ethers.ethers.Contract(
-          "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E",
-          ["function propose(string calldata text) external"],
-          signer
-        );
-
-        const tx = await contract.propose(fullText);
-        await tx.wait();
-
-        alert("✅ Reflection submitted successfully!");
-        location.reload();
-      } catch (err) {
-        console.error(err);
-        alert("❌ Submission failed: " + (err.message || err));
       }
+      requestAnimationFrame(drawParticles);
     }
 
-    document.getElementById("submitButton").addEventListener("click", submitReflection);
+    createParticles();
+    drawParticles();
   </script>
 </body>
 </html>
