@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Noēsis</title>
-  <link rel="icon" type="image/png" href="noesis-logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="icon" href="noesis-logo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.4/dist/ethers.umd.min.js"></script>
   <style>
     html, body {
       margin: 0;
@@ -66,7 +67,6 @@
     .lyrics span:nth-child(3) { animation-delay: 8.5s; }
     .lyrics span:nth-child(4) { animation-delay: 9.5s; }
     .lyrics span:nth-child(5) { animation-delay: 10.5s; }
-
     .manifesto {
       font-size: 1.1em;
       margin-top: 2em;
@@ -76,14 +76,12 @@
       line-height: 1.8em;
       animation: fadeInManifesto 3s ease-out 12s forwards;
     }
-
     .button-container {
       margin-top: 2em;
       z-index: 2;
       animation: fadeInManifesto 2s ease-out 14s forwards;
       opacity: 0;
     }
-
     button {
       background-color: #222;
       color: #fff;
@@ -94,14 +92,12 @@
       border-radius: 4px;
       cursor: pointer;
     }
-
     #proposals {
       margin-top: 2em;
       z-index: 2;
       max-width: 80vw;
       text-align: left;
     }
-
     .proposal-card {
       background-color: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -109,7 +105,26 @@
       margin-bottom: 1em;
       border-radius: 8px;
     }
-
+    .form-container {
+      margin-top: 3em;
+      z-index: 2;
+      animation: fadeInManifesto 2s ease-out 14s forwards;
+      opacity: 0;
+    }
+    textarea {
+      width: 80vw;
+      height: 120px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1em;
+      background-color: #111;
+      color: #eee;
+      border: 1px solid #555;
+      border-radius: 4px;
+      padding: 10px;
+    }
+    .form-container button {
+      margin-top: 1em;
+    }
     @keyframes fadeIn {
       0% { opacity: 0; transform: scale(0.6); }
       100% { opacity: 1; transform: scale(1); }
@@ -125,34 +140,8 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 0.8; transform: translateY(0); }
     }
-      .form-container {
-      margin-top: 3em;
-      z-index: 2;
-      animation: fadeInManifesto 2s ease-out 14s forwards;
-      opacity: 0;
-    }
-
-    textarea {
-      width: 80vw;
-      height: 120px;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 1em;
-      background-color: #111;
-      color: #eee;
-      border: 1px solid #555;
-      border-radius: 4px;
-      padding: 10px;
-    }
-
-    .form-container button {
-      margin-top: 1em;
-    }
-</style>
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.4/dist/ethers.umd.min.js"></script>
+  </style>
   <script>
-  // Set your NFT.Storage token here:
-  // window.NFT_TOKEN = "..."; // disabled for Pinata
-
     async function loadProposals() {
       const provider = new ethers.ethers.JsonRpcProvider("https://ethereum-sepolia.publicnode.com");
       const contractAddress = "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E";
@@ -160,10 +149,8 @@
         "function getProposals() public view returns (tuple(uint256 id, address author, string text, uint256 timestamp)[])"
       ];
       const contract = new ethers.ethers.Contract(contractAddress, abi, provider);
-
       const container = document.getElementById("proposals");
       container.innerHTML = "Loading proposals...";
-
       try {
         const proposals = await contract.getProposals();
         container.innerHTML = "";
@@ -187,6 +174,70 @@
         });
       } catch (err) {
         container.innerHTML = `<p>Error loading proposals: ${err.message}</p>`;
+      }
+    }
+
+    async function submitReflection() {
+      const text = document.getElementById("reflectionText").value;
+      if (!text.trim()) {
+        alert("Reflection text is empty.");
+        return;
+      }
+
+      try {
+        const pinataJWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjYjQ2NGIyMy03MzdlLTRkMmItOTI2Ny1jZDJhOWVlOTFlNzgiLCJlbWFpbCI6ImVyZXpzbnpAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6Ijg0NTIwYTM4MWMxZTFlYmMxNmZiIiwic2NvcGVkS2V5U2VjcmV0IjoiMjk2ZjE3YmRkMzk0MWM0ZDc5MDBiMmY5NGVkNzJkNjU3OGI2YzU2YmU4YmYwZTA3MmFhY2U4YWIwOWJiNmFkMCIsImV4cCI6MTc3NTgyNDg1NX0.mfKw5M9ArmrD2wHys7KmfIWkP8Y7OB_ReET9FZTClwM";
+
+        const formData = new FormData();
+        formData.append("file", new Blob([text], { type: "text/plain" }));
+
+        const ipfsResult = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${pinataJWT}` },
+          body: formData
+        }).then(res => res.json());
+
+        if (!ipfsResult || !ipfsResult.IpfsHash) {
+          throw new Error("IPFS upload failed — check API key or file type.");
+        }
+
+        const cid = ipfsResult.IpfsHash;
+        const fullText = `${text}\nIPFS: ${cid}`;
+
+        if (!window.ethereum) {
+          alert("✅ Uploaded to IPFS, but no wallet detected.\nIPFS CID: " + cid);
+          return;
+        }
+
+        await window.ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [{
+            chainId: "0xaa36a7",
+            chainName: "Sepolia Testnet",
+            nativeCurrency: { name: "SepoliaETH", symbol: "ETH", decimals: 18 },
+            rpcUrls: ["https://ethereum-sepolia.publicnode.com"],
+            blockExplorerUrls: ["https://sepolia.etherscan.io"]
+          }]
+        });
+
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = await provider.getSigner();
+
+        const contract = new ethers.ethers.Contract(
+          "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E",
+          ["function propose(string calldata text) external"],
+          signer
+        );
+
+        const tx = await contract.propose(fullText);
+        await tx.wait();
+
+        alert("✅ Reflection submitted successfully!");
+        location.reload();
+      } catch (err) {
+        console.error(err);
+        alert("❌ Submission failed: " + (err.message || err));
       }
     }
   </script>
@@ -217,78 +268,14 @@
 
   <div class="form-container">
     <textarea id="reflectionText" placeholder="Write your reflection here..."></textarea><br>
-    <button onclick="submitReflection()">Submit Reflection</button>
+    <button id="submitButton">Submit Reflection</button>
   </div>
 
   <div id="proposals"></div>
-<script>
-window.submitReflection = async function() {
-    const text = document.getElementById("reflectionText").value;
-    if (!text.trim()) {
-      alert("Reflection text is empty.");
-      return;
-    }
 
-    try {
-      const pinataJWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjYjQ2NGIyMy03MzdlLTRkMmItOTI2Ny1jZDJhOWVlOTFlNzgiLCJlbWFpbCI6ImVyZXpzbnpAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6Ijg0NTIwYTM4MWMxZTFlYmMxNmZiIiwic2NvcGVkS2V5U2VjcmV0IjoiMjk2ZjE3YmRkMzk0MWM0ZDc5MDBiMmY5NGVkNzJkNjU3OGI2YzU2YmU4YmYwZTA3MmFhY2U4YWIwOWJiNmFkMCIsImV4cCI6MTc3NTgyNDg1NX0.mfKw5M9ArmrD2wHys7KmfIWkP8Y7OB_ReET9FZTClwM";
-
-      const formData = new FormData();
-      formData.append("file", new Blob([text], { type: "text/plain" }));
-
-      const ipfsResult = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${pinataJWT}`
-        },
-        body: formData
-      }).then(res => res.json());
-
-      console.log("✅ IPFS raw response:", ipfsResult);
-
-      if (!ipfsResult || !ipfsResult.IpfsHash) {
-        throw new Error("IPFS upload failed — check API key or file type.");
-      }
-
-      const cid = ipfsResult.IpfsHash;
-      const fullText = `${text}
-IPFS: ${cid}`;
-
-      if (!window.ethereum) {
-        alert("✅ Uploaded to IPFS, but no wallet detected.\nIPFS CID: " + cid);
-        return;
-      }
-
-      await window.ethereum.request({
-        method: "wallet_addEthereumChain",
-        params: [{
-          chainId: "0xaa36a7",
-          chainName: "Sepolia Testnet",
-          nativeCurrency: { name: "SepoliaETH", symbol: "ETH", decimals: 18 },
-          rpcUrls: ["https://ethereum-sepolia.publicnode.com"],
-          blockExplorerUrls: ["https://sepolia.etherscan.io"]
-        }]
-      });
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contract = new ethers.ethers.Contract(
-        "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E",
-        ["function propose(string calldata text) external"],
-        signer
-      );
-
-      const tx = await contract.propose(fullText);
-      await tx.wait();
-
-      alert("✅ Reflection submitted successfully!");
-      location.reload();
-    } catch (err) {
-      console.error(err);
-      alert("❌ Submission failed: " + (err.message || err));
-    }
-};
-</script>
+  <script>
+    document.getElementById("submitButton").addEventListener("click", submitReflection);
+  </script>
 </body>
 </html>
 
