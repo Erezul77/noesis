@@ -175,7 +175,7 @@
 
   <script>
     async function loadProposals() {
-      const provider = new ethers.ethers.JsonRpcProvider("https://ethereum-sepolia.publicnode.com");
+      const provider = new ethers.ethers.BrowserProvider(window.ethereum);
       const contractAddress = "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E";
       const abi = [
         "function getProposals() public view returns (tuple(uint256 id, address author, string text, uint256 timestamp)[])"
