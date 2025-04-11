@@ -221,13 +221,16 @@
         const formData = new FormData();
         formData.append("file", new Blob([text], { type: "text/plain" }));
 
-        const ipfsResult = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${pinataJWT}`
-          },
-          body: formData
-        }).then(res => res.json());
+        const ipfsResponse = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${pinataJWT}`
+  },
+  body: formData
+});
+
+const ipfsResult = await ipfsResponse.json();
+console.log("📦 Pinata response:", ipfsResult);
 
         if (!ipfsResult || !ipfsResult.IpfsHash) {
           throw new Error("IPFS upload failed — check API key or file type.");
