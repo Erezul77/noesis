@@ -265,7 +265,7 @@
     }
 
     async function loadProposals() {
-      const provider = new ethers.JsonRpcProvider("https://sepolia.infura.io/v3/YOUR_INFURA_KEY");
+      const provider = new ethers.JsonRpcProvider("https://snowy-crimson-liquid.ethereum-sepolia.quiknode.pro/8afa4848b4e5b2aa6069ef4b88f8135e3d268ddd/");
       const contract = new ethers.Contract(
         "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E",
         ["function getAllProposals() public view returns (string[] memory)"],
