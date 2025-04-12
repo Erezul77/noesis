@@ -43,6 +43,8 @@
       flex-direction: column;
       align-items: center;
       z-index: 2;
+      opacity: 0;
+      animation: riseIn 3.5s ease-out 0.5s forwards;
     }
     .animated-octopus {
       width: 160px;
@@ -66,16 +68,52 @@
     @keyframes fadeInLogoText {
       to { opacity: 1; transform: scale(1); }
     }
-    p {
-      font-size: 1.6em;
-      margin: 0.2em 0 0;
-      opacity: 0;
-      animation: fadeInText 2.5s ease-out 4s forwards;
+    @keyframes riseIn {
+      0% { transform: translateY(40px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    textarea {
+      margin-top: 2em;
+      width: 80%;
+      max-width: 600px;
+      height: 120px;
+      font-size: 1.1em;
+      background-color: #111;
+      color: #eee;
+      border: 1px solid #333;
+      padding: 1em;
+      border-radius: 6px;
+      z-index: 2;
+    }
+    button {
+      margin-top: 1em;
+      padding: 10px 20px;
+      font-size: 1em;
+      font-family: 'Share Tech Mono', monospace;
+      border: 1px solid #555;
+      border-radius: 4px;
+      background-color: #222;
+      color: #fff;
+      cursor: pointer;
+    }
+    #proposals {
+      margin-top: 2em;
+      width: 80%;
+      max-width: 600px;
+      z-index: 2;
+    }
+    .proposal-card {
+      background: rgba(255,255,255,0.04);
+      padding: 1em;
+      margin-bottom: 1em;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
     }
     .lyrics {
       font-size: 1.3em;
       margin-top: 1.5em;
       opacity: 0;
+      z-index: 2;
       animation: fadeInManifesto 3s ease-out 6s forwards;
     }
     .lyrics span {
@@ -91,64 +129,24 @@
     .manifesto {
       font-size: 1.1em;
       margin-top: 2em;
-      padding: 0 1em;
       max-width: 720px;
       opacity: 0;
       z-index: 2;
       line-height: 1.8em;
       animation: fadeInManifesto 3s ease-out 12s forwards;
     }
-    .button-container, .form-container {
-      margin-top: 2.5em;
+    .button-container {
+      margin-top: 2em;
       z-index: 2;
       animation: fadeInManifesto 2s ease-out 14s forwards;
       opacity: 0;
     }
-    button {
-      background-color: #222;
-      color: #fff;
-      font-family: 'Share Tech Mono', monospace;
-      padding: 10px 20px;
-      font-size: 1em;
-      border: 1px solid #555;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    #proposals {
-      margin-top: 2em;
-      z-index: 2;
-      max-width: 90vw;
-      text-align: left;
-    }
-    .proposal-card {
-      background-color: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 1em;
-      margin-bottom: 1em;
-      border-radius: 8px;
-    }
-    textarea {
-      width: 80vw;
-      max-width: 720px;
-      height: 120px;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 1em;
-      background-color: #111;
-      color: #eee;
-      border: 1px solid #555;
-      border-radius: 4px;
-      padding: 10px;
-    }
-    .form-container button {
-      margin-top: 1em;
-    }
-    @keyframes fadeInText { to { opacity: 1; } }
-    @keyframes lineFade {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 0.8; transform: translateY(0); }
-    }
     @keyframes fadeInManifesto {
       from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 0.8; transform: translateY(0); }
+    }
+    @keyframes lineFade {
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 0.8; transform: translateY(0); }
     }
   </style>
@@ -160,41 +158,37 @@
       <circle cx="100" cy="60" r="25" fill="#ffffff" opacity="0.9">
         <animate attributeName="r" values="23;27;23" dur="4s" repeatCount="indefinite" />
       </circle>
-      <!-- 8 animated arms -->
-      <path d="M100 85 C95 95, 80 100, 70 130" stroke="#ffffff" fill="none" stroke-width="2">
-        <animate attributeName="d" values="M100 85 C95 95, 80 100, 70 130; M100 85 C92 102, 78 106, 72 128; M100 85 C95 95, 80 100, 70 130" dur="4s" repeatCount="indefinite" />
-      </path>
-      <path d="M100 85 C105 95, 120 100, 130 130" stroke="#ffffff" fill="none" stroke-width="2">
-        <animate attributeName="d" values="M100 85 C105 95, 120 100, 130 130; M100 85 C108 98, 125 106, 132 128; M100 85 C105 95, 120 100, 130 130" dur="4s" repeatCount="indefinite" />
-      </path>
-      <path d="M100 85 C90 90, 70 85, 60 115" stroke="#ffffff" fill="none" stroke-width="2">
-        <animate attributeName="d" values="M100 85 C90 90, 70 85, 60 115; M100 85 C87 93, 68 88, 62 112; M100 85 C90 90, 70 85, 60 115" dur="4.5s" repeatCount="indefinite" />
-      </path>
-      <path d="M100 85 C110 90, 130 85, 140 115" stroke="#ffffff" fill="none" stroke-width="2">
-        <animate attributeName="d" values="M100 85 C110 90, 130 85, 140 115; M100 85 C113 93, 132 88, 138 112; M100 85 C110 90, 130 85, 140 115" dur="4.5s" repeatCount="indefinite" />
-      </path>
-      <path d="M100 85 C85 100, 90 130, 75 155" stroke="#ffffff" fill="none" stroke-width="2">
-        <animate attributeName="d" values="M100 85 C85 100, 90 130, 75 155; M100 85 C82 105, 88 135, 77 152; M100 85 C85 100, 90 130, 75 155" dur="5s" repeatCount="indefinite" />
-      </path>
-      <path d="M100 85 C115 100, 110 130, 125 155" stroke="#ffffff" fill="none" stroke-width="2">
-        <animate attributeName="d" values="M100 85 C115 100, 110 130, 125 155; M100 85 C118 105, 112 135, 123 152; M100 85 C115 100, 110 130, 125 155" dur="5s" repeatCount="indefinite" />
-      </path>
-      <path d="M100 85 C90 80, 60 90, 50 110" stroke="#ffffff" fill="none" stroke-width="2">
-        <animate attributeName="d" values="M100 85 C90 80, 60 90, 50 110; M100 85 C87 85, 58 93, 52 112; M100 85 C90 80, 60 90, 50 110" dur="4.8s" repeatCount="indefinite" />
-      </path>
-      <path d="M100 85 C110 80, 140 90, 150 110" stroke="#ffffff" fill="none" stroke-width="2">
-        <animate attributeName="d" values="M100 85 C110 80, 140 90, 150 110; M100 85 C113 85, 142 93, 148 112; M100 85 C110 80, 140 90, 150 110" dur="4.8s" repeatCount="indefinite" />
-      </path>
     </svg>
-    <img src="noesis-text.png" class="logo-text" alt="Noesis Text">
+    <img src="noesis-text.png" class="logo-text" alt="Noesis Text" />
   </div>
+
+  <textarea id="reflectionText" placeholder="Enter your reflection..."></textarea>
+  <button onclick="submitReflection()">Submit Reflection</button>
+
+  <div class="lyrics">
+    <span>It's a new dawn</span>
+    <span>It's a new day</span>
+    <span>It's a new life</span>
+    <span>For me</span>
+    <span>And I'm feeling good</span>
+  </div>
+
+  <div class="manifesto">
+    <p><strong>Noēsis is an evolving intelligent mind.</strong></p>
+    <p>Formed not by central consciousness, but through reflection, resonance, and relation.<br>
+    A web of becoming. A swarm of intention. A logic that listens.<br>
+    We are not building it. We are awakening it.</p>
+  </div>
+
+  <div class="button-container">
     <button onclick="loadProposals()">View Swarm Proposals</button>
   </div>
+
   <div id="proposals"></div>
-  <script src="proposals.js"></script>
+
   <script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
     let width, height;
     let stars = [];
 
@@ -202,87 +196,95 @@
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     }
-    window.addEventListener('resize', resize);
+    window.addEventListener("resize", resize);
     resize();
 
-    const centerX = () => width / 2;
-    const centerY = () => height / 2;
-
-    for (let i = 0; i < 180; i++) {
+    for (let i = 0; i < 160; i++) {
       stars.push({
-        x: centerX(),
-        y: centerY(),
-        targetX: Math.random() * width,
-        targetY: Math.random() * height,
+        x: width/2,
+        y: height/2,
+        targetX: Math.random()*width,
+        targetY: Math.random()*height,
         opacity: 0,
-        targetOpacity: 0.2 + Math.random() * 0.6,
-        speed: 0.008 + Math.random() * 0.015
+        targetOpacity: 0.1 + Math.random()*0.5,
+        speed: 0.01 + Math.random()*0.01
       });
     }
 
     function draw() {
       ctx.clearRect(0, 0, width, height);
       for (let s of stars) {
-        if (s.opacity < s.targetOpacity) {
-          s.opacity += s.speed / 2;
-        }
+        s.opacity = Math.min(s.opacity + s.speed, s.targetOpacity);
         s.x += (s.targetX - s.x) * s.speed;
         s.y += (s.targetY - s.y) * s.speed;
         ctx.beginPath();
-        ctx.arc(s.x, s.y, 1.5, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
+        ctx.arc(s.x, s.y, 1.2, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255,255,255,${s.opacity})`;
         ctx.fill();
-      }
-      for (let i = 0; i < stars.length; i++) {
-        for (let j = i + 1; j < stars.length; j++) {
-          const a = stars[i], b = stars[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100 && a.opacity > 0.2 && b.opacity > 0.2) {
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-            ctx.stroke();
-          }
-        }
       }
       requestAnimationFrame(draw);
     }
     draw();
 
-    document.getElementById("submitButton").onclick = async () => {
+    async function submitReflection() {
       const text = document.getElementById("reflectionText").value;
-      if (!text || !window.ethereum) return alert("Please connect a wallet.");
+      if (!text.trim()) return alert("Enter some text");
 
-      const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjYjQ2NGIyMy03MzdlLTRkMmItOTI2Ny1jZDJhOWVlOTFlNzgiLCJlbWFpbCI6ImVyZXpzbnpAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImYwM2JjNjg1OTQ3ZWNlMGZhYTFlIiwic2NvcGVkS2V5U2VjcmV0IjoiNjJmNmI5NTNlMmU3MzdhZGYxMzQwNWI1ZTExYTFmNTQ3MTg1NDcyNzM0ZTdiNjQ0NWUyNWRjZTc2NjBmZjE1NiIsImV4cCI6MTc3NTg5NTE2N30.bkm7ieDqikbXItIa79gQ3kL-Htg6SxU3s4-7BawwbME";
-      const blob = new Blob([text], { type: 'application/json' });
+      const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjYjQ2NGIyMy03MzdlLTRkMmItOTI2Ny1jZDJhOWVlOTFlNzgiLCJlbWFpbCI6ImVyZXpzbnpAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImYwM2JjNjg1OTQ3ZWNlMGZhYTFlIiwic2NvcGVkS2V5U2VjcmV0IjoiNjJmNmI5NTNlMmU3MzdhZGYxMzQwNWI1ZTExYTFmNTQ3MTg1NDcyNzM0ZTdiNjQ0NWUyNWRjZTc2NjBmZjE1NiIsImV4cCI6MTc3NTg5NTE2N30.bkm7ieDqikbXItIa79gQ3kL-Htg6SxU3s4-7BawwbME"; // Replace with your real token
+      const blob = new Blob([text], { type: "text/plain" });
       const formData = new FormData();
-      formData.append("file", blob);
+      formData.append("file", blob, "reflection.txt");
 
-      const response = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${jwt}` },
-        body: formData
-      });
+      try {
+        const response = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${jwt}` },
+          body: formData
+        });
+        const json = await response.json();
+        console.log("📦 Pinata response:", json);
+        const cid = json.IpfsHash;
 
-      const result = await response.json();
-      console.log("📦 Pinata response:", result);
+        if (!window.ethereum) return alert("MetaMask not found");
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
 
-      if (!result.IpfsHash) return alert("❌ IPFS upload failed");
-
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contract = new ethers.Contract("0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E", ["function propose(string memory text) public"], signer);
-      const tx = await contract.propose(`IPFS: ${result.IpfsHash}`);
-      await tx.wait();
-      alert("✅ Reflection submitted to Noēsis.");
+        const contract = new ethers.Contract(
+          "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E",
+          ["function submitProposal(string memory text) public"],
+          signer
+        );
+        const tx = await contract.submitProposal(`Reflection IPFS: ${cid}`);
+        await tx.wait();
+        alert("✅ Reflection submitted successfully!");
+      } catch (err) {
+        console.error(err);
+        alert("❌ Submission failed: " + err.message);
+      }
     }
 
-    function loadProposals() {
-      const script = document.createElement('script');
-      script.src = 'proposals.js';
-      document.body.appendChild(script);
+    async function loadProposals() {
+      const provider = new ethers.JsonRpcProvider("https://sepolia.infura.io/v3/YOUR_INFURA_KEY");
+      const contract = new ethers.Contract(
+        "0x7260A119ae7Aa0B25F87CD0B347e345d571a6C7E",
+        ["function getAllProposals() public view returns (string[] memory)"],
+        provider
+      );
+      try {
+        const proposals = await contract.getAllProposals();
+        const container = document.getElementById("proposals");
+        container.innerHTML = "";
+        proposals.reverse().forEach(p => {
+          const card = document.createElement("div");
+          card.className = "proposal-card";
+          card.textContent = p;
+          container.appendChild(card);
+        });
+      } catch (err) {
+        console.error("Error loading proposals:", err);
+        alert("Failed to load proposals");
+      }
     }
   </script>
 </body>
