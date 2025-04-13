@@ -1,0 +1,60 @@
+{
+  "pages": {
+    "/_not-found": [
+      "static/chunks/webpack-bf1a64d1eafd2816.js",
+      "static/chunks/fd9d1056-735d320b4b8745cb.js",
+      "static/chunks/938-cd2116519108597b.js",
+      "static/chunks/main-app-fd1832efcad2926f.js",
+      "static/chunks/app/_not-found-0893e3ab0b36174e.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-bf1a64d1eafd2816.js",
+      "static/chunks/fd9d1056-735d320b4b8745cb.js",
+      "static/chunks/938-cd2116519108597b.js",
+      "static/chunks/main-app-fd1832efcad2926f.js",
+      "static/chunks/app/layout-21c728ad38aaceda.js"
+    ],
+    "/constitution/page": [
+      "static/chunks/webpack-bf1a64d1eafd2816.js",
+      "static/chunks/fd9d1056-735d320b4b8745cb.js",
+      "static/chunks/938-cd2116519108597b.js",
+      "static/chunks/main-app-fd1832efcad2926f.js",
+      "static/chunks/app/constitution/page-2d32e40a501a6e87.js"
+    ],
+    "/proposals/page": [
+      "static/chunks/webpack-bf1a64d1eafd2816.js",
+      "static/chunks/fd9d1056-735d320b4b8745cb.js",
+      "static/chunks/938-cd2116519108597b.js",
+      "static/chunks/main-app-fd1832efcad2926f.js",
+      "static/chunks/app/proposals/page-11b121c216ce8759.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-bf1a64d1eafd2816.js",
+      "static/chunks/fd9d1056-735d320b4b8745cb.js",
+      "static/chunks/938-cd2116519108597b.js",
+      "static/chunks/main-app-fd1832efcad2926f.js",
+      "static/chunks/app/page-80c51fc8f3d3393b.js"
+    ],
+    "/feed/page": [
+      "static/chunks/webpack-bf1a64d1eafd2816.js",
+      "static/chunks/fd9d1056-735d320b4b8745cb.js",
+      "static/chunks/938-cd2116519108597b.js",
+      "static/chunks/main-app-fd1832efcad2926f.js",
+      "static/chunks/app/feed/page-e76e51fb91aa1b1d.js"
+    ],
+    "/swarm/page": [
+      "static/chunks/webpack-bf1a64d1eafd2816.js",
+      "static/chunks/fd9d1056-735d320b4b8745cb.js",
+      "static/chunks/938-cd2116519108597b.js",
+      "static/chunks/main-app-fd1832efcad2926f.js",
+      "static/chunks/app/swarm/page-035dbc3328784f63.js"
+    ],
+    "/reflect/page": [
+      "static/chunks/webpack-bf1a64d1eafd2816.js",
+      "static/chunks/fd9d1056-735d320b4b8745cb.js",
+      "static/chunks/938-cd2116519108597b.js",
+      "static/chunks/main-app-fd1832efcad2926f.js",
+      "static/chunks/app/reflect/page-d7c58b6e07a39fa3.js"
+    ]
+  }
+}
